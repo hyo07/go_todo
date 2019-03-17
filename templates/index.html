@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Sample App</title>
+    <link rel="stylesheet" href="//localhost:8080/assets/style.css">
+</head>
+
+<body>
+<h2>追加</h2>
+<form method="post" action="/new">
+    <p>内容<input type="text" name="text" size="30" placeholder="入力してください" ></p>
+    <p>状態
+        <select name="status">
+            <option value="未実行">未実行</option>
+            <option value="実行中">実行中</option>
+            <option value="終了">終了</option>
+        </select>
+    </p>
+    <p><input type="submit" value="Send"></p>
+</form>
+
+<ul>
+    {{ range .todos }}
+        <li>内容：{{ .Text }}  状態：{{ .Status }}
+            <label><a href="/detail/{{.ID}}">編集</a></label>
+            <label><a href="/delete_check/{{.ID}}">削除</a></label>
+        </li>
+    {{end}}
+</ul>
+</body>
+</html>
