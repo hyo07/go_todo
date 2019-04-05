@@ -10,8 +10,8 @@ require (
 	github.com/jinzhu/inflection v0.0.0-20180308033659-04140366298a // indirect
 	github.com/mattn/go-isatty v0.0.7 // indirect
 	github.com/mattn/go-sqlite3 v1.10.0
-	github.com/ugorji/go/codec v0.0.0-20190316192920-e2bddce071ad // indirect
-	golang.org/x/sys v0.0.0-20190316082340-a2f829d7f35f // indirect
+	github.com/ugorji/go/codec v0.0.0-20190320090025-2dc34c0b8780 // indirect
+	golang.org/x/crypto v0.0.0-20190404164418-38d8ce5564a5
 	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
 	gopkg.in/go-playground/validator.v8 v8.18.2 // indirect
 	gopkg.in/yaml.v2 v2.2.2 // indirect

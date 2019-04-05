@@ -1,4 +1,4 @@
-package helper
+package db
 
 import (
 	"github.com/jinzhu/gorm"
@@ -21,21 +21,21 @@ func dbOpen() *gorm.DB {
 }
 
 //DB初期化
-func dbInit() {
+func DbInit() {
 	db := dbOpen()
 	db.AutoMigrate(&Todo{})
 	defer db.Close()
 }
 
 //DB追加
-func dbInsert(text string, status string) {
+func DbInsert(text string, status string) {
 	db := dbOpen()
 	db.Create(&Todo{Text: text, Status: status})
 	defer db.Close()
 }
 
 //DB更新
-func dbUpdate(id int, text string, status string) {
+func DbUpdate(id int, text string, status string) {
 	db := dbOpen()
 	var todo Todo
 	db.First(&todo, id)
@@ -46,7 +46,7 @@ func dbUpdate(id int, text string, status string) {
 }
 
 //DB削除
-func dbDelete(id int) {
+func DbDelete(id int) {
 	db := dbOpen()
 	var todo Todo
 	db.First(&todo, id)
@@ -55,7 +55,7 @@ func dbDelete(id int) {
 }
 
 //DB全取得
-func dbGetAll() []Todo {
+func DbGetAll() []Todo {
 	db := dbOpen()
 	var todos []Todo
 	db.Order("created_at desc").Find(&todos)
@@ -64,7 +64,7 @@ func dbGetAll() []Todo {
 }
 
 //DB一つ取得
-func dbGetOne(id int) Todo {
+func DbGetOne(id int) Todo {
 	db := dbOpen()
 	var todo Todo
 	db.First(&todo, id)
