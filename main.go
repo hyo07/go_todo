@@ -15,6 +15,7 @@ func main() {
 
 	//dbInit()
 	db.DbInit()
+	db.UserInit()
 
 	//Index
 	router.GET("/", route.Index)

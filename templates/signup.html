@@ -6,6 +6,16 @@
 </head>
 <body>
 
+<header>
+    <label><a href="/" methods="GET">TOP</a></label>
+    <label><a href="/login" methods="GET">login</a></label>
+    <label><a href="/signup" methods="GET">signup</a></label>
+</header>
+
+{{ range .message }}
+    <h2 style="color: red">{{ .message }}</h2>
+{{ end }}
+
 <div class="col-md-offset-4 col-md-4">
 
     <form method="POST" action="/user/signup">

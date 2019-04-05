@@ -1,45 +1,61 @@
 package route
 
 import (
+	"fmt"
+	"go_todo/db"
 	"go_todo/helper"
 
 	"github.com/gin-gonic/gin"
 )
 
-//ログイン
+//アカウント作成
 func UserSignup(ctx *gin.Context) {
 	username := ctx.PostForm("username")
 	password := ctx.PostForm("password")
 	passwordConf := ctx.PostForm("passwordconf")
 	if password != passwordConf {
-		println("パスワードが一致していません")
-		ctx.Redirect(302, "/")
-		return
+		fmt.Println("パスワードが一致していません")
+		ctx.Redirect(302, "/user/signup")
 	}
-	println("username: " + username)
-	println("password: " + password)
-	println("passwordConf: " + passwordConf)
+	fmt.Println("username: " + username)
+	fmt.Println("password: " + password)
+	fmt.Println("passwordConf: " + passwordConf)
 
-	ctx.Redirect(302, "/")
-}
+	//usernameが既に使われていないか確認
+	u := db.UserAlredy(username)
+	if u != "" {
+		fmt.Println("そのusernameは既に登録されています")
+		ctx.Redirect(302, "/user/signup")
+	}
 
-//アカウント作成
-func UserLogin(ctx *gin.Context) {
-	username := ctx.PostForm("username")
-	password := ctx.PostForm("password")
-	println("username: " + username)
-	println("password: " + password)
-
+	//passwordをハッシュ化
 	hash, err := helper.PasswordHash(password)
 	if err != nil {
 		panic("hash err")
 	}
-	println("hashed PW >>>>", hash)
-	err2 := helper.PasswordValid(hash, password)
-	if err2 != nil {
-		println("ERRRRER")
-		println(err2)
+	fmt.Println(hash)
+
+	//登録
+	//db.UserInsert(username, hash)
+	ctx.Redirect(302, "/")
+}
+
+//ログイン
+func UserLogin(ctx *gin.Context) {
+	username := ctx.PostForm("username")
+	password := ctx.PostForm("password")
+	fmt.Println("username: " + username)
+	fmt.Println("password: " + password)
+
+	//username, passwordが正しいか確認
+	err := db.UserCheck(username, password)
+	if err == nil {
+		fmt.Println("ログイン成功！！！！")
+		ctx.Redirect(302, "/")
+	} else {
+		fmt.Println("失敗！！！！！！")
+
+		ctx.HTML(200, "login.html", gin.H{"message": "username または password が違います"})
 	}
 
-	ctx.Redirect(302, "/")
 }
