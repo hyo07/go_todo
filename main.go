@@ -81,6 +81,34 @@ func main() {
 
 	dbInit()
 
+	//ユーザー周り
+	user := router.Group("/user")
+	{
+		user.POST("/signup", func(ctx *gin.Context) {
+			username := ctx.PostForm("username")
+			password := ctx.PostForm("password")
+			passwordConf := ctx.PostForm("passwordconf")
+			if password != passwordConf {
+				println("パスワードが一致していません")
+				ctx.Redirect(302, "/")
+				return
+			}
+			println("username: " + username)
+			println("password: " + password)
+			println("passwordConf: " + passwordConf)
+
+			ctx.Redirect(302, "/")
+		})
+		user.POST("/login", func(ctx *gin.Context) {
+			username := ctx.PostForm("username")
+			password := ctx.PostForm("password")
+			println("username: " + username)
+			println("password: " + password)
+
+			ctx.Redirect(302, "/")
+		})
+	}
+
 	//Index
 	router.GET("/", func(ctx *gin.Context) {
 		todos := dbGetAll()
@@ -142,6 +170,16 @@ func main() {
 		dbDelete(id)
 		ctx.Redirect(302, "/")
 
+	})
+
+	//login
+	router.GET("/login", func(ctx *gin.Context) {
+		ctx.HTML(200, "login.html", gin.H{})
+	})
+
+	//signup
+	router.GET("/signup", func(ctx *gin.Context) {
+		ctx.HTML(200, "signup.html", gin.H{})
 	})
 
 	router.Run()
